@@ -23,6 +23,13 @@ def save_data(data):
 
 # --- PUBLIC ROUTES ---
 
+@app.route('/')
+def homepage():
+    return render_template('home.html')
+
+
+@app.route('/diagnose', methods=['GET', 'POST'])
+def diagnose():
 @app.route('/', methods=['GET', 'POST'])
 def home():
     """

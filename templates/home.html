@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paddy Doctor | Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>🌾 Paddy Doctor</h1>
+
+    <p style="font-size: 18px; text-align: center;">
+        An <strong>Expert System</strong> to help diagnose common paddy diseases and nutrient
+        deficiencies based on observed field symptoms.
+    </p>
+
+    <div style="margin-top: 30px;">
+        <h3>What this system can do:</h3>
+        <ul>
+            <li>Identify major paddy diseases</li>
+            <li>Estimate confidence level</li>
+            <li>Suggest management practices</li>
+        </ul>
+    </div>
+
+    <a href="/diagnose">
+        <button class="btn-analyze">Start Diagnosis</button>
+    </a>
+</div>
+
+</body>
+</html>
