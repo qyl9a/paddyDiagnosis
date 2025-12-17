@@ -28,7 +28,7 @@ def homepage():
     return render_template('home.html')
 
 @app.route('/diagnose', methods=['GET', 'POST'])
-def home():
+def diagnose():
     """
     The main diagnosis page. 
     Handles both showing the form (GET) and processing results (POST).
