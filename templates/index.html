@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paddy Doctor - Python Backend</title>
-    <!-- Connecting Python Static folder to HTML -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
@@ -12,12 +11,10 @@
     <div class="container">
         <h1>🌾 Paddy Doctor </h1>
         
-        <!-- The Form submits data to the Python 'home' route -->
         <form method="POST" action="/diagnose">
             <h3>Select Observed Symptoms:</h3>
             
             <div class="symptom-grid">
-                <!-- Python Loop to generate checkboxes -->
                 {% for symptom in symptoms_list %}
                 <label class="symptom-item">
                     <input type="checkbox" name="symptoms" value="{{ symptom.id }}">
@@ -25,42 +22,12 @@
                 </label>
                 {% endfor %}
             </div>
-
             <button type="submit" class="btn-analyze">Analyze Symptoms</button>
         </form>
 
-        <!-- Display Results only if Python sent them -->
-        {% if diagnosis %}
-            <hr>
-            <h2>Diagnostic Results</h2>
+
             
-            {% for result in diagnosis %}
-            <div class="result-card">
-                <h3>
-                    {{ result.name }} 
-                    <span class="badge">{{ result.type }}</span>
-                </h3>
-                <p>
-                    <strong>Confidence:</strong> 
-                    <span class="{{ 'confidence-high' if result.confidence > 50 else 'confidence-low' }}">
-                        {{ result.confidence }}%
-                    </span>
-                </p>
-                <p><strong>Severity:</strong> {{ result.severity }}</p>
-                <div style="background: white; padding: 10px; border-radius: 6px;">
-                    <strong>Management:</strong><br>
-                    {{ result.management }}
-                </div>
-            </div>
-            {% endfor %}
             
-        {% elif diagnosis is not none %}
-            <div class="result-card" style="border-left-color: orange;">
-                <h3>No definitive match found.</h3>
-                <p>Please consult a local agricultural officer.</p>
-            </div>
-        {% endif %}
-    </div>
 
 </body>
 </html>

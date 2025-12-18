@@ -60,7 +60,7 @@ def diagnose():
         
         # 3. Sort results: Highest confidence first
         scores.sort(key=lambda x: x['confidence'], reverse=True)
-        diagnosis = scores
+        return render_template('result.html', diagnosis=scores)
 
     return render_template('index.html', symptoms_list=data['symptoms'], diagnosis=diagnosis, selected_symptoms=selected_symptoms)
 

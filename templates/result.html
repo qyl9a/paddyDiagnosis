@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnosis Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="diagnosis-container">
+        
+        <div class="diagnosis-header">
+            <h2 class="diagnosis-title">Diagnostic Results</h2>
+            
+        </div>
+
+        <div style="display:flex; justify-content:flex-end;margin-right: 10px;">
+            <a href="/diagnose" class="btn-reset">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12"/><path d="M3 3v9h9"/></svg>
+                    New Diagnosis
+            </a>
+        </div>
+
+        {% if diagnosis and diagnosis|length > 0 %}
+            {% set top_match = diagnosis[0] %}
+            
+            <div class="diagnosis-results">
+                
+                <div class="result-card">
+                    <div class="card-header {{ 'is-strong' if top_match.confidence > 70 else 'is-weak' }}">
+                        <div class="header-content">
+                            <div>
+                                <div class="badge-group">
+                                    <span class="badge badge-dark">Top Match</span>
+                                    <span class="badge {{ 'badge-high' if top_match.severity in ['High', 'Critical'] else 'badge-low' }}">
+                                        {{ top_match.severity }} Severity
+                                    </span>
+                                </div>
+                                <h3 class="disease-title">{{ top_match.name }}</h3>
+                                <p class="disease-type">{{ top_match.type }}</p>
+                            </div>
+                            <div class="confidence-box">
+                                <div class="confidence-val {{ 'high' if top_match.confidence > 70 else 'med' }}">
+                                    {{ top_match.confidence|round|int }}%
+                                </div>
+                                <div class="confidence-label">Probability</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        {% if top_match.description %}
+                        <div>
+                            <h4 class="section-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                                Description
+                            </h4>
+                            <p class="description-text">{{ top_match.description }}</p>
+                        </div>
+                        {% endif %}
+
+                        <div class="management-box">
+                            <h4 class="section-title">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                Recommendations
+                            </h4>
+                            
+                            {% if top_match.management is iterable and top_match.management is not string %}
+                                <ul class="management-list">
+                                    {% for tip in top_match.management %}
+                                    <li class="management-item">
+                                        <span class="bullet-point"></span>
+                                        {{ tip }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="description-text">{{ top_match.management }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if diagnosis|length > 1 %}
+                <div class="secondary-section">
+                    <h4>Other Possibilities</h4>
+                    <div class="secondary-grid">
+                        {% for match in diagnosis[1:] %}
+                        <div class="secondary-card">
+                            <div>
+                                <h5 class="secondary-name">{{ match.name }}</h5>
+                                <p class="secondary-type">{{ match.type }}</p>
+                            </div>
+                            <div class="secondary-score">{{ match.confidence|round|int }}%</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+        {% else %}
+            <div class="alert-no-match">
+                <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                <h3 class="alert-title">No clear match found</h3>
+                <p class="alert-text">The selected symptoms do not strongly match any specific disease in our database. Please consult a local agricultural officer.</p>
+                <br>
+                <a href="/diagnose" class="btn-reset" style="justify-content: center;">Try Again</a>
+            </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
