@@ -27,6 +27,10 @@ def save_data(data):
 def homepage():
     return render_template('home.html')
 
+@app.route('/leaf')
+def leaf():
+    return render_template('leaf.html')
+
 @app.route('/diagnose', methods=['GET', 'POST'])
 def diagnose():
     """

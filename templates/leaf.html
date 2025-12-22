@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leaf Symptom Diagnosis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>Leaf Symptom</h1>
+
+    <form method="POST" action="{{ url_for('diagnose') }}">
+
+        <!-- Leaf Color -->
+        <h3>Leaf Color</h3>
+        <div class="symptom-grid">
+            <label class="symptom-item">
+                <input type="checkbox" name="symptoms" value="leaf_general_yellowing">
+                Yellow
+            </label>
+            <label class="symptom-item">
+                <input type="checkbox" name="symptoms" value="leaf_brown_border">
+                Brown
+            </label>
+        </div>
+
+        <!-- Type of Leaf Spots -->
+        <h3>Type of Leaf Spots</h3>
+        <div class="symptom-grid">
+            <label class="symptom-item">
+                <input type="checkbox" name="symptoms" value="leaf_diamond_lesions">
+                Diamond-shaped spots
+            </label>
+            <label class="symptom-item">
+                <input type="checkbox" name="symptoms" value="leaf_water_soaked_streaks">
+                Water-soaked spots
+            </label>
+            <label class="symptom-item">
+                <input type="checkbox" name="symptoms" value="stem_irregular_spots">
+                Small / Circular spots
+            </label>
+        </div>
+
+        <!-- Leaf Condition -->
+        <h3>Leaf Condition</h3>
+        <div class="symptom-grid">
+            <label class="symptom-item">
+                <input type="checkbox" name="symptoms" value="leaf_drying_wilt">
+                Wilting / Drying from tip
+            </label>
+            <label class="symptom-item">
+                <input type="checkbox" name="symptoms" value="leaf_yellow_orange_discoloration">
+                Discoloration
+            </label>
+        </div>
+
+        <button type="submit" class="btn-analyze">
+            Next
+        </button>
+
+    </form>
+</div>
+
+</body>
+</html>
