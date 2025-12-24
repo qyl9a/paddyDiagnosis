@@ -6,7 +6,6 @@ app = Flask(__name__)
 app.secret_key = "secret_key_for_session"  # Change in production
 DATA_FILE = "data.json"
 
-# Your JSON category keys (exactly as in your file)
 CATEGORY_KEYS = {
     "leaf": "leaf",
     "stem": "stem",
@@ -25,7 +24,6 @@ NEXT_STEP = {"leaf": "stem", "stem": "panicle", "panicle": "whole", "whole": Non
 PREV_STEP = {"leaf": None, "stem": "leaf", "panicle": "stem", "whole": "panicle"}
 
 
-# ---------------- HELPERS ----------------
 def load_data():
     if not os.path.exists(DATA_FILE):
         return {
@@ -45,7 +43,7 @@ def save_data(data):
 
 
 def build_all_symptoms(data):
-    """Flatten all symptom categories into one list for admin dropdown & mapping."""
+    """put all symptom categories into one list for admin dropdown & mapping."""
     all_symptoms = []
     for key in ["leaf", "stem", "panicle", "Whole Plant / General"]:
         all_symptoms.extend(data.get(key, []))
@@ -171,7 +169,7 @@ def diagnose():
 
     scores.sort(key=lambda x: x["confidence"], reverse=True)
 
-    # Optional: auto-clear after diagnosis
+    #auto-clear after diagnosis
     session.pop("selected_symptoms", None)
 
     return render_template("result.html", diagnosis=scores, selected_symptoms=selected_symptoms)
