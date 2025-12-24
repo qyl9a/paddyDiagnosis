@@ -157,22 +157,22 @@ def diagnose():
         dis_symptoms = dis.get("symptoms", [])
         matches = [s for s in dis_symptoms if s in selected_symptoms]
 
-        total_rules = len(dis_symptoms)
-        confidence = (len(matches) / total_rules) * 100 if total_rules > 0 else 0
-
-        if confidence > 0:
+        if matches:  # only show diseases with at least one match
             dis_copy = dis.copy()
-            dis_copy["confidence"] = round(confidence, 1)
             dis_copy["match_count"] = len(matches)
             dis_copy["matches"] = matches
             scores.append(dis_copy)
 
-    scores.sort(key=lambda x: x["confidence"], reverse=True)
+    # Sort by number of matches (highest first)
+    scores.sort(key=lambda x: x["match_count"], reverse=True)
 
-    #auto-clear after diagnosis
     session.pop("selected_symptoms", None)
 
-    return render_template("result.html", diagnosis=scores, selected_symptoms=selected_symptoms)
+    return render_template(
+        "result.html",
+        diagnosis=scores,
+        selected_symptoms=selected_symptoms
+    )
 
 
 @app.route("/clear")

@@ -28,7 +28,7 @@
             <div class="diagnosis-results">
                 
                 <div class="result-card">
-                    <div class="card-header {{ 'is-strong' if top_match.confidence > 70 else 'is-weak' }}">
+                    <div class="card-header is-strong">
                         <div class="header-content">
                             <div>
                                 <div class="badge-group">
@@ -40,12 +40,7 @@
                                 <h3 class="disease-title">{{ top_match.name }}</h3>
                                 <p class="disease-type">{{ top_match.type }}</p>
                             </div>
-                            <div class="confidence-box">
-                                <div class="confidence-val {{ 'high' if top_match.confidence > 70 else 'med' }}">
-                                    {{ top_match.confidence|round|int }}%
-                                </div>
-                                <div class="confidence-label">Probability</div>
-                            </div>
+                           
                         </div>
                     </div>
 
@@ -92,7 +87,6 @@
                                 <h5 class="secondary-name">{{ match.name }}</h5>
                                 <p class="secondary-type">{{ match.type }}</p>
                             </div>
-                            <div class="secondary-score">{{ match.confidence|round|int }}%</div>
                         </div>
                         {% endfor %}
                     </div>
