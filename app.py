@@ -105,6 +105,7 @@ def symptom_used_by_diseases(data, sym_id):
 # ---------------- PUBLIC ROUTES ----------------
 @app.route("/")
 def homepage():
+<<<<<<< Updated upstream
     return render_template("home.html")
 
 
@@ -132,6 +133,10 @@ def whole():
 def update_selection(category_slug):
     if category_slug not in CATEGORY_KEYS:
         return redirect(url_for("homepage"))
+=======
+    """return render_template('home.html')"""
+    return render_template('leaf.html')
+>>>>>>> Stashed changes
 
     data = load_data()
     category_ids = get_category_ids(data, category_slug)

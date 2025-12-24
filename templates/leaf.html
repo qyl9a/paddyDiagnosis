@@ -2,12 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< Updated upstream
     <title>Leaf Symptom Diagnosis</title>
+=======
+    <title>Paddy Doctor | Leaf Diagnosis</title>
+>>>>>>> Stashed changes
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
 <div class="container">
+<<<<<<< Updated upstream
     <h1>Leaf Symptom</h1>
 
    <form method="POST" action="{{ url_for('update_selection', category_slug='leaf') }}">
@@ -28,6 +33,85 @@
         
 
     </form>
+=======
+    <h1>🌿 Leaf-Based Diagnosis</h1>
+    <p>Select the observed leaf symptoms and field conditions.</p>
+
+    <form method="POST">
+
+        <!-- Leaf Color -->
+        <label>Leaf Color</label>
+        <select name="leaf_color" required>
+            <option value="">-- Select --</option>
+            <option value="green">Green</option>
+            <option value="yellow">Yellow</option>
+            <option value="yellow_orange">Yellow-Orange</option>
+            <option value="brown">Brown</option>
+        </select>
+
+        <!-- Leaf Spot Type -->
+        <label>Leaf Spot Type</label>
+        <select name="leaf_spot_type">
+            <option value="">-- None --</option>
+            <option value="diamond">Diamond-shaped</option>
+            <option value="gray">Gray spots</option>
+            <option value="circular_brown">Brown circular spots</option>
+            <option value="water_soaked">Water-soaked streaks</option>
+        </select>
+
+        <!-- Leaf Condition -->
+        <label>Leaf Condition</label>
+        <select name="leaf_condition">
+            <option value="">-- Select --</option>
+            <option value="healthy">Healthy</option>
+            <option value="wilting">Wilting</option>
+            <option value="drying_from_tip">Drying from tip</option>
+            <option value="brown_tip">Brown leaf tip</option>
+        </select>
+
+        <!-- Environmental Condition -->
+        <label>Environmental Condition</label>
+        <select name="environment">
+            <option value="">-- Select --</option>
+            <option value="humid">Humid</option>
+            <option value="drought">Drought</option>
+            <option value="standing_water">Standing water</option>
+        </select>
+
+        <!-- Pest Presence -->
+        <label>Pest Presence</label>
+        <select name="pest_presence">
+            <option value="">-- None --</option>
+            <option value="leafhopper">Leafhopper</option>
+        </select>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-analyze">Analyze Disease</button>
+
+    </form>
+
+    {% if diagnosis %}
+    <hr>
+
+    <h2>🩺 Diagnosis Result</h2>
+
+    {% for d in diagnosis %}
+    <div class="result-card">
+        <h3>{{ d.name }}</h3>
+        <p><strong>Cause:</strong> {{ d.cause }}</p>
+        <p>{{ d.description }}</p>
+
+        <h4>Prevention Tips:</h4>
+        <ul>
+            {% for tip in d.prevention %}
+            <li>{{ tip }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+>>>>>>> Stashed changes
 </div>
 
 </body>
