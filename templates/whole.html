@@ -27,12 +27,13 @@
     </div>
 
     <div class="nav-buttons">
-      <a class="btn-back" href="{{ url_for('panicle') }}">Back</a>
+  <a class="btn-back" href="{{ url_for('panicle') }}">Back</a>
 
-      <button type="submit" class="btn-analyze">Save</button>
+  <button type="submit" class="btn-analyze" name="next" value="diagnose">
+    Save
+  </button>
+</div>
 
-      <a class="btn-diagnose" href="{{ url_for('diagnose') }}">Diagnose</a>
-    </div>
 
   </form>
 

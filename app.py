@@ -142,6 +142,9 @@ def update_selection(category_slug):
 
     save_selected_set(selected)
 
+    if request.form.get("next") == "diagnose":
+        return redirect(url_for("diagnose"))
+
     next_slug = NEXT_STEP.get(category_slug)
     return redirect(url_for(next_slug)) if next_slug else redirect(url_for("whole"))
 
