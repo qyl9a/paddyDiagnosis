@@ -1,9 +1,10 @@
 import json
 import os
+import secrets
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 
 app = Flask(__name__)
-app.secret_key = "secret_key_for_session"  # Change in production
+app.secret_key = secrets.token_hex(32)
 DATA_FILE = "data.json"
 
 CATEGORY_KEYS = {
@@ -20,7 +21,7 @@ TEMPLATE_MAP = {
     "whole": "whole.html"
 }
 
-NEXT_STEP = {"leaf": "stem", "stem": "panicle", "panicle": "whole", "whole": None}
+NEXT_STEP = {"leaf": "stem", "stem": "panicle", "panicle": "whole", "whole": "diagnose"}
 PREV_STEP = {"leaf": None, "stem": "leaf", "panicle": "stem", "whole": "panicle"}
 
 

@@ -7,32 +7,33 @@
 </head>
 <body>
 
-<div class="container">
-  <h1>Panicle Symptoms</h1>
+  <div class="container">
+    <h1>Panicle Symptoms</h1>
 
-  <form method="POST" action="{{ url_for('update_selection', category_slug='panicle') }}">
+    <form method="POST" action="{{ url_for('update_selection', category_slug='panicle') }}">
 
-    <div class="symptom-grid">
-      {% for s in symptoms_list %}
-        <label class="symptom-item">
-          <input
-            type="checkbox"
-            name="symptoms"
-            value="{{ s.id }}"
-            {% if s.id in selected_symptoms %}checked{% endif %}
-          >
-          {{ s.label }}
-        </label>
-      {% endfor %}
-    </div>
+      <div class="symptom-grid">
+        {% for s in symptoms_list %}
+          <label class="symptom-item">
+            <input
+              type="checkbox"
+              name="symptoms"
+              value="{{ s.id }}"
+              {% if s.id in selected_symptoms %}checked{% endif %}
+            >
+            {{ s.label }}
+          </label>
+        {% endfor %}
+      </div>
 
-    <div class="nav-buttons">
-      <a class="btn-back" href="{{ url_for('stem') }}">Back</a>
-      <button type="submit" class="btn-analyze">Save & Next</button>
-    </div>
+      <div class="nav-buttons">
+        <button type="submit" class="btn-analyze">Next</button>
+        <a class="btn-back" href="{{ url_for('stem') }}">Back</a>
+      </div>
 
-  </form>
-</div>
+    </form>
+  </div>
+
 
 </body>
 </html>
