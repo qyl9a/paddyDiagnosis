@@ -2,105 +2,129 @@
   "leaf": [
     {
       "id": "leaf_diamond_lesions",
-      "label": "Diamond/Eye-shaped lesions"
+      "label": "Diamond/Eye-shaped lesions",
+      "img": "images/symptoms/leaf/leaf_diamond_lesions.webp"
     },
     {
       "id": "leaf_gray_center",
-      "label": "Lesions with gray/white centers"
+      "label": "Lesions with gray/white centers",
+      "img": "images/symptoms/leaf/paddy_lesions_with_graywhite_centres.jpg"
     },
     {
       "id": "leaf_brown_border",
-      "label": "Lesions with brown borders"
+      "label": "Lesions with brown borders",
+      "img": "images/symptoms/leaf/lesions_with_brown_borders.jpeg"
     },
     {
       "id": "leaf_water_soaked_streaks",
-      "label": "Water-soaked streaks/stripes"
+      "label": "Water-soaked streaks/stripes",
+      "img": "images/symptoms/leaf/leaf_water_soaked_streaks.jpeg"
     },
     {
       "id": "leaf_yellow_orange_margins",
-      "label": "Yellow/Orange wavy margins"
+      "label": "Yellow/Orange wavy margins",
+      "img": "images/symptoms/leaf/leaf_yellow_orange_margins.jpeg"
     },
     {
       "id": "leaf_milky_ooze",
-      "label": "Milky ooze (bacterial droplets)"
-    },
-    {
-      "id": "leaf_drying_wilt",
-      "label": "Leaves rolling/wilting"
+      "label": "Milky ooze (bacterial droplets)",
+      "img": "images/symptoms/leaf/leaf_milky_ooze.jpeg"
     },
     {
       "id": "leaf_general_yellowing",
-      "label": "General yellowing (chlorosis)"
+      "label": "General yellowing (chlorosis)",
+      "img": "images/symptoms/leaf/leaf_general_yellowing.jpg"
+    },
+    {
+      "id": "leaf_drying_wilt",
+      "label": "Leaves rolling/wilting",
+      "img": "images/symptoms/leaf/leaf_drying_wilt.jpg"
     },
     {
       "id": "leaf_small_erect",
-      "label": "Leaves are small and narrow"
+      "label": "Leaves are small and narrow",
+      "img": "images/symptoms/leaf/leaf_small_erect.webp"
     },
     {
       "id": "leaf_yellow_orange_discoloration",
-      "label": "Yellow to orange-red discoloration"
+      "label": "Yellow to orange-red discoloration",
+      "img": "images/symptoms/leaf/leaf_yellow_orange_discoloration.jpeg"
     },
     {
       "id": "leaf_twisted_tips",
-      "label": "Twisted leaf tips"
+      "label": "Twisted leaf tips",
+      "img": "images/symptoms/leaf/leaf_twisted_tips.png"
     },
     {
       "id": "leaf_banding_pattern",
-      "label": "Banding pattern (horizontal)"
+      "label": "Banding pattern (horizontal)",
+      "img": "images/symptoms/leaf/leaf_banding_pattern.jpeg"
     }
   ],
   "stem": [
     {
-      "id": "stem_dead_heart",
-      "label": "Dead Heart (central shoot dies)"
-    },
-    {
       "id": "stem_holes_frass",
-      "label": "Holes in stem/Frass (powdery waste)"
+      "label": "Holes in stem/Frass (powdery waste)",
+      "img": "images/symptoms/stem/stem_holes_frass.jpeg"
     },
     {
-      "id": "stem_snake_skin_lesions",
-      "label": "Snake-skin pattern lesions"
+      "id": "stem_dead_heart",
+      "label": "Dead Heart (central shoot dies)",
+      "img": "images/symptoms/stem/stem_dead_heart.jpeg"
     },
     {
       "id": "stem_irregular_spots",
-      "label": "Irregular gray/green spots on sheath"
+      "label": "Irregular gray/green spots on sheath",
+      "img": "images/symptoms/stem/stem_irregular_spots.jpeg"
+    },
+    {
+      "id": "stem_snake_skin_lesions",
+      "label": "Snake-skin pattern lesions",
+      "img": "images/symptoms/stem/stem_snake_skin_lesions.jpeg"
     },
     {
       "id": "stem_visible_insects",
-      "label": "Insects visible at plant base"
+      "label": "Insects visible at plant base",
+      "img": "images/symptoms/stem/stem_visible_insects.jpeg"
     }
   ],
   "panicle": [
     {
       "id": "panicle_neck_rot",
-      "label": "Neck Rot (blackening at base of panicle)"
+      "label": "Neck Rot (blackening at base of panicle)",
+      "img": "images/symptoms/panicle/panicle_neck_rot.jpeg"
     },
     {
       "id": "panicle_white_head",
-      "label": "White Head (empty, white panicles)"
+      "label": "White Head (empty, white panicles)",
+      "img": "images/symptoms/panicle/panicle_white_head.jpeg"
     }
   ],
   "Whole Plant / General": [
     {
       "id": "plant_burnt_appearance",
-      "label": "Burnt appearance of field"
+      "label": "Burnt appearance of field",
+      "img": "images/symptoms/whole/plant_burnt_appearance.jpeg"
     },
     {
       "id": "plant_stunted_growth",
-      "label": "Stunted growth / Dwarfing"
+      "label": "Stunted growth / Dwarfing",
+      "img": "images/symptoms/whole/plant_stunted_growth.jpg"
     },
     {
       "id": "plant_hopper_burn",
-      "label": "Hopper burn (circular drying patches)"
-    },
-    {
-      "id": "plant_sooty_mold",
-      "label": "Sooty mold (black powder) at base"
+      "label": "Hopper burn (circular drying patches)",
+      "img": "images/symptoms/whole/plant_hopper_burn.jpeg"
     },
     {
       "id": "plant_reduced_tillering",
-      "label": "Reduced tillering"
+      "label": "Reduced tillering",
+      "img": "images/symptoms/whole/plant_reduced_tillering.jpeg"
+    },
+    {
+      "id": "plant_sooty_mold",
+      "label": "Sooty mold (black powder) at base",
+      "img": "images/symptoms/whole/plant_sooty_mold.jpeg"
     }
   ],
   "disease": [

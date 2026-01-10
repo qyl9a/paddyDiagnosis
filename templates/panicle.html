@@ -14,15 +14,22 @@
 
       <div class="symptom-grid">
         {% for s in symptoms_list %}
-          <label class="symptom-item">
-            <input
-              type="checkbox"
-              name="symptoms"
-              value="{{ s.id }}"
-              {% if s.id in selected_symptoms %}checked{% endif %}
-            >
-            {{ s.label }}
-          </label>
+                  <label class="symptom-item symptom-card">
+  <input type="checkbox" name="symptoms" value="{{ s.id }}"
+         {% if s.id in selected_symptoms %}checked{% endif %}>
+
+  <div class="symptom-content">
+    <div class="symptom-label">{{ s.label }}</div>
+    <div class="symptom-sub">Tap to select</div>
+  </div>
+
+  <div class="symptom-media">
+    <img src="{{ url_for('static', filename=s.img) }}"
+     alt="{{ s.label }}"
+     onerror="this.style.display='none'">
+
+  </div>
+</label>
         {% endfor %}
       </div>
 
