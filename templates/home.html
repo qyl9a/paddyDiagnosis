@@ -7,6 +7,24 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <!-- ===== TOP NAV HEADER ===== -->
+<header class="top-nav">
+  <div class="top-nav-inner">
+
+    <!-- Left: Logo -->
+    <div class="nav-logo">
+      <span class="nav-icon">🌾</span>
+      <span class="nav-text">PaddyDoctor</span>
+    </div>
+
+    <!-- Right: Admin Login -->
+    <a href="/login" class="nav-login-btn">
+      🔐 Admin Login
+    </a>
+
+  </div>
+</header>
+
 <div class="home-bg">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
@@ -15,41 +33,67 @@
 <div class=" home-container">
 
     <!-- HERO -->
-    <header class="hero">
-        <div class="hero-badge">Expert System • Paddy Health</div>
-        <h1 class="hero-title">🌾 Paddy Doctor</h1>
-        <p class="hero-subtitle">
-            Diagnose common paddy diseases and nutrient deficiencies based on observed field symptoms —
-            with clear management suggestions.
-        </p>
+ <header class="hero hero-split">
+  <!-- LEFT: Text -->
+  <div class="hero-left">
+    <div class="hero-badge">Expert System • Paddy Health</div>
 
-        <div class="hero-actions">
-            <a href="/leaf" class="btn-primary">
-                <span class="btn-icon">🩺</span>
-                Start Diagnosis
-            </a>
+    <h1 class="hero-title">🌾 Paddy Doctor</h1>
 
-            <a href="#how" class="btn-secondary">
-                <span class="btn-icon">📌</span>
-                How it works
-            </a>
-        </div>
+    <p class="hero-subtitle">
+      Diagnose common paddy diseases and nutrient deficiencies based on observed field symptoms —
+      with clear management suggestions.
+    </p>
 
-        <div class="hero-stats">
-            <div class="stat">
-                <div class="stat-num">Fast</div>
-                <div class="stat-label">Diagnosis Flow</div>
-            </div>
-            <div class="stat">
-                <div class="stat-num">Smart</div>
-                <div class="stat-label">Rule-Based Reasoning</div>
-            </div>
-            <div class="stat">
-                <div class="stat-num">Clear</div>
-                <div class="stat-label">Management Tips</div>
-            </div>
-        </div>
-    </header>
+    <div class="hero-actions">
+      <a href="/leaf" class="btn-primary">
+        <span class="btn-icon">🩺</span>
+        Start Diagnosis
+      </a>
+
+      <a href="#how" class="btn-secondary">
+        <span class="btn-icon">📌</span>
+        How it works
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">Fast</div>
+        <div class="stat-label">Diagnosis Flow</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Smart</div>
+        <div class="stat-label">Rule-Based Reasoning</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Clear</div>
+        <div class="stat-label">Management Tips</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Image -->
+  <div class="hero-right">
+    <div class="hero-image-card">
+      <!-- Put your image in: static/images/home-hero.png -->
+      <img
+        src="{{ url_for('static', filename='images/home-hero.avif') }}"
+        alt="Paddy field illustration"
+        class="hero-image"
+      >
+      <div class="hero-image-glow"></div>
+    </div>
+
+    <!-- Optional small badges on image -->
+    <div class="hero-mini-badges">
+      <div class="mini-badge">🌱 Field Symptoms</div>
+      <div class="mini-badge">🧠 Rule Matching</div>
+      <div class="mini-badge">✅ Management Steps</div>
+    </div>
+  </div>
+</header>
+
 
     <!-- FEATURES -->
     <section class="features" id="how">

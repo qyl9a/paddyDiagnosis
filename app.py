@@ -2,10 +2,44 @@ import json
 import os
 import secrets
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from werkzeug.utils import secure_filename
+
+
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)
 DATA_FILE = "data.json"
+
+UPLOAD_ROOT = os.path.join("static", "images", "symptoms")
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp"}
+
+
+def allowed_file(filename: str) -> bool:
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def category_to_folder(category_slug: str) -> str:
+    # your UI uses "whole" but folder name should be "whole"
+    return "whole" if category_slug == "whole" else category_slug
+def save_uploaded_symptom_image(file_storage, category_slug, sym_id):
+    if not file_storage or not file_storage.filename:
+        return None
+
+    filename = secure_filename(file_storage.filename)
+    ext = os.path.splitext(filename)[1].lower()
+
+   
+
+    folder = os.path.join(UPLOAD_ROOT, category_slug)
+    os.makedirs(folder, exist_ok=True)
+
+    saved_name = f"{sym_id}{ext}"
+    save_path = os.path.join(folder, saved_name)
+    file_storage.save(save_path)
+
+    # path stored in JSON must be relative to /static
+    return f"images/symptoms/{category_slug}/{saved_name}"
+
+
 
 CATEGORY_KEYS = {
     "leaf": "leaf",
@@ -331,12 +365,39 @@ def add_symptom():
         flash(f"Symptom ID '{sym_id}' already exists. Use a unique ID.")
         return redirect(url_for("admin_dashboard"))
 
+    # ---- optional image upload ----
+    image_file = request.files.get("image")
+    image_path = ""  # relative path stored in JSON, e.g. images/symptoms/leaf/leaf_xxx.webp
+
+    if image_file and image_file.filename:
+        if not allowed_file(image_file.filename):
+            flash("Invalid image type. Allowed: png, jpg, jpeg, webp.")
+            return redirect(url_for("admin_dashboard"))
+
+        folder = category_to_folder(category_slug)
+        save_dir = os.path.join(UPLOAD_ROOT, folder)
+        os.makedirs(save_dir, exist_ok=True)
+
+        ext = image_file.filename.rsplit(".", 1)[1].lower()
+        filename = secure_filename(f"{sym_id}.{ext}")
+
+        full_path = os.path.join(save_dir, filename)
+        image_file.save(full_path)
+
+        image_path = f"images/symptoms/{folder}/{filename}"
+
     json_key = CATEGORY_KEYS[category_slug]
-    data.setdefault(json_key, []).append({"id": sym_id, "label": label})
+
+    symptom_obj = {"id": sym_id, "label": label}
+    if image_path:
+        symptom_obj["img"] = image_path
+
+    data.setdefault(json_key, []).append(symptom_obj)
     save_data(data)
 
     flash(f"Symptom '{label}' added to {category_slug}.")
     return redirect(url_for("admin_dashboard"))
+
 
 
 @app.route("/admin/symptom/delete/<sym_id>")
@@ -361,7 +422,73 @@ def delete_symptom(sym_id):
     save_data(data)
     flash(f"Symptom '{sym_id}' deleted successfully.")
     return redirect(url_for("admin_dashboard"))
+@app.route("/admin/symptom/update", methods=["POST"])
+def update_symptom():
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+
+    data = load_data()
+
+    old_id = request.form.get("original_id", "").strip()
+    old_cat = request.form.get("original_category", "").strip()
+    new_cat = request.form.get("category", "").strip()
+    new_label = request.form.get("label", "").strip()
+
+    if not old_id:
+        flash("Missing symptom id.")
+        return redirect(url_for("admin_dashboard"))
+
+    if new_cat not in CATEGORY_KEYS:
+        flash("Invalid category.")
+        return redirect(url_for("admin_dashboard"))
+
+    if not new_label:
+        flash("Label is required.")
+        return redirect(url_for("admin_dashboard"))
+
+    # find symptom in old location
+    json_key_old, idx_old, sym_obj = find_symptom_location(data, old_id)
+    if json_key_old is None:
+        flash("Symptom not found.")
+        return redirect(url_for("admin_dashboard"))
+
+    # keep existing image unless replaced
+    image_path = sym_obj.get("img", "")
+
+    image_file = request.files.get("image")
+    if image_file and image_file.filename:
+        if not allowed_file(image_file.filename):
+            flash("Invalid image type. Allowed: png, jpg, jpeg, webp.")
+            return redirect(url_for("admin_dashboard"))
+
+        folder = category_to_folder(new_cat)  # new category folder
+        save_dir = os.path.join(UPLOAD_ROOT, folder)
+        os.makedirs(save_dir, exist_ok=True)
+
+        ext = image_file.filename.rsplit(".", 1)[1].lower()
+        filename = secure_filename(f"{old_id}.{ext}")
+        full_path = os.path.join(save_dir, filename)
+        image_file.save(full_path)
+
+        image_path = f"images/symptoms/{folder}/{filename}"
+
+    # remove symptom from old category list
+    data[json_key_old].pop(idx_old)
+
+    # add into new category list
+    json_key_new = CATEGORY_KEYS[new_cat]
+    updated = {"id": old_id, "label": new_label}
+    if image_path:
+        updated["img"] = image_path
+
+    data.setdefault(json_key_new, []).append(updated)
+
+    save_data(data)
+    flash(f"Symptom '{old_id}' updated.")
+    return redirect(url_for("admin_dashboard"))
 
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+

@@ -5,194 +5,160 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard - Paddy Doctor</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-  <script>
-    function toggleDetails(id) {
-      var row = document.getElementById('details-' + id);
-      if (!row) return;
-      row.style.display = (row.style.display === 'none' || row.style.display === '') ? 'table-row' : 'none';
-    }
-  </script>
 </head>
 
 <body>
-  <div class="container" style="max-width: 1000px;">
+<div class="container" style="max-width:1000px;">
 
-    <!-- Header -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <h1>🛠️ Admin Dashboard</h1>
-      <div style="display:flex; gap:15px; align-items:center;">
-        <a href="/" target="_blank">View Live Site</a>
-        <a href="/logout"
-           style="color:#ef4444; font-weight:bold; padding:8px 16px; border:1px solid #ef4444; border-radius:6px;">
-          Logout
-        </a>
-      </div>
+  <!-- HEADER -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+    <h1>🛠️ Admin Dashboard</h1>
+    <div style="display:flex; gap:12px;">
+      <a href="/" target="_blank">View Live Site</a>
+      <a href="/logout"
+         style="color:#ef4444; font-weight:bold; padding:8px 16px; border:1px solid #ef4444; border-radius:6px;">
+        Logout
+      </a>
     </div>
+  </div>
 
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="flash-msg">{{ messages[0] }}</div>
-      {% endif %}
-    {% endwith %}
+  <!-- FLASH -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-msg">{{ messages[0] }}</div>
+    {% endif %}
+  {% endwith %}
 
-    <!-- SECTION 1: ADD NEW DISEASE FORM -->
-    <div class="result-card" style="border-left-color:#2563eb; background:#eff6ff;">
-      <h3 style="color:#1e40af; margin-top:0;">Add New Disease</h3>
+  <!-- ================= ADD DISEASE ================= -->
+  <div class="result-card" style="border-left-color:#2563eb; background:#eff6ff;">
+    <h3>Add New Disease</h3>
 
-      <form action="/admin/add" method="POST">
-        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:15px;">
-          <!-- Disease Name -->
-          <div>
-            <label style="font-size:0.85em; font-weight:bold; color:#1e40af;">Disease Name</label>
-            <input type="text" name="name" placeholder="e.g. Sheath Rot" class="input-field" required>
-          </div>
+   <form action="/admin/add" method="POST">
 
-          <!-- Disease Type -->
-          <div>
-            <label style="font-size:0.85em; font-weight:bold; color:#1e40af;">Type</label>
-            <select name="type" class="input-field">
-              <option>Fungal Disease</option>
-              <option>Bacterial Disease</option>
-              <option>Viral Disease</option>
-              <option>Pest Infestation</option>
-              <option>Nutrient Deficiency</option>
-            </select>
-          </div>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px;">
+        <input class="input-field" name="name" placeholder="Disease Name" required>
 
-          <!-- Severity -->
-          <div>
-            <label style="font-size:0.85em; font-weight:bold; color:#1e40af;">Severity</label>
-            <select name="severity" class="input-field">
-              <option>Low</option>
-              <option>Medium</option>
-              <option>High</option>
-              <option>Critical</option>
-            </select>
-          </div>
-        </div>
-
-        <div style="margin-top:15px;">
-          <label style="font-size:0.85em; font-weight:bold; color:#1e40af;">Logic</label>
-        <select name="logic" class="input-field" required>
-          <option value="OR" selected>OR</option>
-          <option value="AND">AND</option>
+        <select class="input-field" name="type">
+          <option>Fungal Disease</option>
+          <option>Bacterial Disease</option>
+          <option>Viral Disease</option>
+          <option>Pest Infestation</option>
+          <option>Nutrient Deficiency</option>
         </select>
-        </div>
 
-
-        <!-- Description -->
-        <div style="margin-top:15px;">
-          <label style="font-size:0.85em; font-weight:bold; color:#1e40af;">Description</label>
-          <textarea name="description" placeholder="Short description..." class="input-field"
-                    style="height: 60px; font-family: inherit;"></textarea>
-        </div>
-
-        <!-- Management Advice -->
-        <div style="margin-top:15px;">
-          <label style="font-size:0.85em; font-weight:bold; color:#1e40af;">Management Advice</label>
-          <textarea name="management"
-                    placeholder="One step per line OR separated by commas"
-                    class="input-field"
-                    style="height: 80px; font-family: inherit;"
-                    required></textarea>
-        </div>
-
-        <!-- Symptom Multi-Select -->
-        <div style="margin-top:15px;">
-          <label style="font-size:0.85em; font-weight:bold; color:#1e40af;">
-            Select Symptoms (Hold Ctrl/Cmd to select multiple)
-          </label>
-          <select name="symptoms" multiple class="input-field" style="height:150px;" required>
-            {% for s in data.symptoms %}
-              <option value="{{ s.id }}">{{ s.label }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <button type="submit" class="btn-analyze" style="background-color:#2563eb; margin-top:20px;">
-          Save Disease
-        </button>
-      </form>
-    </div>
-
-    <!-- SECTION 2: ADD NEW SYMPTOM FORM -->
-    <div class="result-card" style="border-left-color:#10b981; background:#ecfdf5; margin-top:20px;">
-      <h3 style="color:#065f46; margin-top:0;">Add New Symptom</h3>
-
-      <form action="/admin/symptom/add" method="POST">
-        <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
-          <div>
-            <label style="font-size:0.85em; font-weight:bold; color:#065f46;">Category</label>
-            <select name="category" class="input-field" required>
-              <option value="leaf">Leaf</option>
-              <option value="stem">Stem</option>
-              <option value="panicle">Panicle</option>
-              <option value="whole">Whole Plant / General</option>
-            </select>
-          </div>
-
-          <div>
-            <label style="font-size:0.85em; font-weight:bold; color:#065f46;">Symptom ID</label>
-            <input type="text" name="id" class="input-field" placeholder="e.g. leaf_new_symptom" required>
-          </div>
-
-          <div>
-            <label style="font-size:0.85em; font-weight:bold; color:#065f46;">Label</label>
-            <input type="text" name="label" class="input-field" placeholder="e.g. Yellow spots on leaf" required>
-          </div>
-        </div>
-
-        <button type="submit" class="btn-analyze" style="background-color:#10b981; margin-top:15px;">
-          Add Symptom
-        </button>
-      </form>
-    </div>
-
-    <!-- SECTION 3: MANAGE SYMPTOMS TABLE -->
-    <div style="margin-top: 30px;">
-      <h3>Manage Symptoms</h3>
-
-      <div style="overflow-x:auto;">
-        <table style="width:100%; border-collapse:collapse; background:white; border:1px solid #e2e8f0;">
-          <thead>
-            <tr style="background:#f8fafc;">
-              <th style="padding:12px; border-bottom:2px solid #e2e8f0; text-align:left;">Category</th>
-              <th style="padding:12px; border-bottom:2px solid #e2e8f0; text-align:left;">Symptom ID</th>
-              <th style="padding:12px; border-bottom:2px solid #e2e8f0; text-align:left;">Label</th>
-              <th style="padding:12px; border-bottom:2px solid #e2e8f0; text-align:center;">Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {% for cat_slug, json_key in category_keys.items() %}
-              {% set items = categorized_symptoms[cat_slug] %}
-              {% for s in items %}
-                <tr style="border-bottom:1px solid #e2e8f0;">
-                  <td style="padding:12px;">{{ cat_slug }}</td>
-                  <td style="padding:12px;"><code>{{ s.id }}</code></td>
-                  <td style="padding:12px;">{{ s.label }}</td>
-                  <td style="padding:12px; text-align:center;">
-                    <a class="btn-view btn-delete"
-                       href="/admin/symptom/delete/{{ s.id }}"
-                       onclick="return confirm('Delete symptom {{ s.id }}? This will fail if used by diseases.');">
-                      Delete
-                    </a>
-                  </td>
-                </tr>
-              {% endfor %}
-            {% endfor %}
-          </tbody>
-        </table>
+        <select class="input-field" name="severity">
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+          <option>Critical</option>
+        </select>
       </div>
-      <p style="color:#64748b; font-size:0.9em; margin-top:8px;">
-        Note: You cannot delete a symptom if it is used by any disease rule.
-      </p>
-    </div>
 
-    <!-- SECTION 4: EXISTING DISEASES TABLE -->
-    <div style="margin-top: 40px;">
+      <select class="input-field" name="logic" style="margin-top:12px;">
+        <option value="OR">OR</option>
+        <option value="AND">AND</option>
+      </select>
+
+      <textarea class="input-field" name="description"
+                placeholder="Disease description"
+                style="margin-top:12px;"></textarea>
+
+      <textarea class="input-field" name="management"
+                placeholder="Management advice (one per line)"
+                style="margin-top:12px;"
+                required></textarea>
+
+      <select class="input-field" name="symptoms" multiple
+              style="margin-top:12px; height:150px;" required>
+        {% for s in data.symptoms %}
+          <option value="{{ s.id }}">{{ s.label }}</option>
+        {% endfor %}
+      </select>
+
+      <button class="btn-analyze" style="margin-top:16px;">Save Disease</button>
+    </form>
+  </div>
+
+  <!-- ================= ADD SYMPTOM ================= -->
+  <div class="result-card" style="border-left-color:#10b981; background:#ecfdf5; margin-top:20px;">
+    <h3>Add New Symptom</h3>
+
+    <form action="/admin/symptom/add" method="POST" enctype="multipart/form-data">
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
+        <select class="input-field" name="category" required>
+          <option value="leaf">Leaf</option>
+          <option value="stem">Stem</option>
+          <option value="panicle">Panicle</option>
+          <option value="whole">Whole Plant / General</option>
+        </select>
+
+        <input class="input-field" name="id" placeholder="Symptom ID" required>
+        <input class="input-field" name="label" placeholder="Label" required>
+        <input class="input-field" type="file" name="image" accept=".png,.jpg,.jpeg,.webp">
+      </div>
+
+      <button class="btn-analyze" style="margin-top:14px;">Add Symptom</button>
+    </form>
+  </div>
+
+  <!-- ================= MANAGE SYMPTOMS ================= -->
+  <div style="margin-top:30px;">
+    <h3>Manage Symptoms</h3>
+
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="background:#f8fafc;">
+          <th>Category</th>
+          <th>ID</th>
+          <th>Label</th>
+          <th>Image</th>
+          <th style="text-align:center;">Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for cat_slug, items in categorized_symptoms.items() %}
+        {% for s in items %}
+        <tr>
+          <td>{{ cat_slug }}</td>
+          <td><code>{{ s.id }}</code></td>
+          <td>{{ s.label }}</td>
+
+          <td style="text-align:center;">
+            {% if s.img %}
+              <img src="{{ url_for('static', filename=s.img) }}"
+                   style="width:40px;height:40px;object-fit:cover;border-radius:6px;">
+            {% else %}
+              <span style="font-size:0.8em;color:#64748b;">No image</span>
+            {% endif %}
+          </td>
+
+          <td style="text-align:center; white-space:nowrap;">
+          <button type="button" class="btn-view"
+  onclick='openEditSymptomModal(
+    "{{ cat_slug }}",
+    "{{ s.id }}",
+    {{ s.label|tojson }},
+    {{ (s.img or "")|tojson }}
+  )'>
+  Edit
+</button>
+
+
+
+            <a class="btn-view btn-delete"
+               href="/admin/symptom/delete/{{ s.id }}"
+               onclick="return confirm('Delete {{ s.id }}?');">
+              Delete
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+ <div style="margin-top: 40px;">
       <h3>List of Diseases</h3>
 
       <div style="overflow-x:auto;">
@@ -270,7 +236,97 @@
         </table>
       </div>
     </div>
+</div>
 
+<!-- ================= EDIT MODAL ================= -->
+<div id="editSymptomModal" class="modal-backdrop" style="display:none;">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>Edit Symptom</h3>
+      <button type="button" class="modal-close" onclick="closeEditSymptomModal()">✕</button>
+
+    </div>
+
+    <form action="/admin/symptom/update" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="original_id" id="edit_original_id">
+      <input type="hidden" name="original_category" id="edit_original_category">
+
+      <select id="edit_category" name="category" class="input-field" required>
+        <option value="leaf">Leaf</option>
+        <option value="stem">Stem</option>
+        <option value="panicle">Panicle</option>
+        <option value="whole">Whole Plant / General</option>
+      </select>
+
+      <input id="edit_label" name="label" class="input-field" required>
+
+      <div style="margin-top:8px;">
+        <img id="edit_preview_img"
+             style="width:60px;height:60px;border-radius:8px;display:none;">
+      </div>
+
+      <input type="file" name="image" class="input-field" accept=".png,.jpg,.jpeg,.webp">
+
+      <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:12px;">
+        <button type="button" class="btn-view" onclick="closeEditSymptomModal()">Cancel</button>
+        <button class="btn-analyze" style="width:auto;">Save</button>
+      </div>
+    </form>
   </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+function openEditSymptomModal(cat, id, label, img){
+  document.getElementById("editSymptomModal").style.display = "flex";
+  document.getElementById("edit_original_id").value = id;
+  document.getElementById("edit_original_category").value = cat;
+  document.getElementById("edit_category").value = cat;
+  document.getElementById("edit_label").value = label;
+
+  const imgEl = document.getElementById("edit_preview_img");
+  if(img){
+    imgEl.src = "{{ url_for('static', filename='') }}" + img;
+    imgEl.style.display = "block";
+  } else {
+    imgEl.style.display = "none";
+  }
+}
+
+function closeEditSymptomModal(){
+  document.getElementById("editSymptomModal").style.display = "none";
+}
+</script>
+<script>
+function toggleDetails(id) {
+  const row = document.getElementById('details-' + id);
+  if (!row) return;
+
+  row.style.display = (row.style.display === 'none' || row.style.display === '')
+    ? 'table-row'
+    : 'none';
+}
+
+function openEditSymptomModal(cat, id, label, img){
+  document.getElementById("editSymptomModal").style.display = "flex";
+  document.getElementById("edit_original_id").value = id;
+  document.getElementById("edit_original_category").value = cat;
+  document.getElementById("edit_category").value = cat;
+  document.getElementById("edit_label").value = label;
+
+  const imgEl = document.getElementById("edit_preview_img");
+  if(img){
+    imgEl.src = "{{ url_for('static', filename='') }}" + img;
+    imgEl.style.display = "block";
+  } else {
+    imgEl.style.display = "none";
+  }
+}
+
+function closeEditSymptomModal(){
+  document.getElementById("editSymptomModal").style.display = "none";
+}
+</script>
+
 </body>
 </html>
